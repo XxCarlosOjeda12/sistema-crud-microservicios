@@ -315,6 +315,42 @@ Debe mostrar 11 contenedores activos:
 - API Gateway: http://localhost:3000
 - Base de datos: localhost:5432
 
+### Desarrollo del Frontend sin Docker (Opcional)
+
+Si se desea trabajar únicamente en el frontend sin levantar todo el stack con Docker:
+
+**Requisitos:**
+- Node.js 18+
+- npm 9+
+
+**Pasos:**
+
+1. Navegar a la carpeta del frontend:
+```bash
+cd frontend
+```
+
+2. Instalar dependencias:
+```bash
+npm install
+```
+
+3. Configurar archivo .env para apuntar al backend desplegado:
+```bash
+REACT_APP_API_BASE_URL=https://api-gateway-c6ru.onrender.com/v1/api
+```
+
+4. Activar los microservicios en Render (ejecutar los 8 comandos curl de la sección "IMPORTANTE: Activación de Microservicios")
+
+5. Levantar servidor de desarrollo:
+```bash
+npm start
+```
+
+6. Abrir navegador en: http://localhost:3000
+
+**Nota:** Esta opción es útil para desarrollo rápido del frontend ya que permite hot-reload sin reconstruir contenedores. El frontend se conectará directamente al backend desplegado en Render.
+
 ---
 
 ## Arquitectura Local vs Producción
@@ -771,7 +807,7 @@ PORT=<assigned-by-render>
 **Nombre:** Carlos Elias Linares Ojeda  
 **Fecha de entrega:** 6 de octubre de 2025  
 **Repositorio:** https://github.com/XxCarlosOjeda12/sistema-crud-microservicios  
-**Versión:** 4.0.0
+**Versión:** 1.0.0
 
 ---
 
