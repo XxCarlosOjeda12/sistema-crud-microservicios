@@ -1,0 +1,337 @@
+{
+  "info": {
+    "name": "CRUD de Microservicios",
+    "description": "Colección completa de endpoints para el sistema de gestión de Startups y Tecnologías",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/v1/api",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Startups",
+      "item": [
+        {
+          "name": "Create Startup",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Tech Innovation Lab\",\n  \"foundedAt\": \"2024-01-15\",\n  \"location\": \"Mexico City, MX\",\n  \"category\": \"AI/ML\",\n  \"fundingAmount\": 2500000\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/startups/create",
+              "host": ["{{baseUrl}}"],
+              "path": ["startups", "create"]
+            },
+            "description": "Crear una nueva startup con todos los campos requeridos"
+          }
+        },
+        {
+          "name": "Create Startup - Invalid (Missing Fields)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Incomplete Startup\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/startups/create",
+              "host": ["{{baseUrl}}"],
+              "path": ["startups", "create"]
+            },
+            "description": "Caso de prueba: Crear startup sin campos requeridos (debe retornar error 400)"
+          }
+        },
+        {
+          "name": "Get All Startups",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/startups/read",
+              "host": ["{{baseUrl}}"],
+              "path": ["startups", "read"]
+            },
+            "description": "Obtener lista completa de startups"
+          }
+        },
+        {
+          "name": "Get Startups with Filters",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/startups/read?category=AI/ML&name=Tech",
+              "host": ["{{baseUrl}}"],
+              "path": ["startups", "read"],
+              "query": [
+                {
+                  "key": "category",
+                  "value": "AI/ML"
+                },
+                {
+                  "key": "name",
+                  "value": "Tech"
+                }
+              ]
+            },
+            "description": "Obtener startups filtradas por categoría y nombre"
+          }
+        },
+        {
+          "name": "Get Startup by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/startups/read/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["startups", "read", "1"]
+            },
+            "description": "Obtener detalle de una startup específica por ID"
+          }
+        },
+        {
+          "name": "Get Startup - Invalid ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/startups/read/99999",
+              "host": ["{{baseUrl}}"],
+              "path": ["startups", "read", "99999"]
+            },
+            "description": "Caso de prueba: Buscar startup con ID inexistente (debe retornar 404)"
+          }
+        },
+        {
+          "name": "Update Startup",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fundingAmount\": 10000000,\n  \"location\": \"San Francisco, CA\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/startups/update/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["startups", "update", "1"]
+            },
+            "description": "Actualizar campos permitidos de una startup existente"
+          }
+        },
+        {
+          "name": "Update Startup - Invalid Data",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fundingAmount\": \"invalid_number\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/startups/update/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["startups", "update", "1"]
+            },
+            "description": "Caso de prueba: Actualizar con datos inválidos (debe retornar error 400)"
+          }
+        },
+        {
+          "name": "Delete Startup",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/startups/delete/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["startups", "delete", "1"]
+            },
+            "description": "Eliminar una startup por ID"
+          }
+        },
+        {
+          "name": "Delete Startup - Non Existent",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/startups/delete/99999",
+              "host": ["{{baseUrl}}"],
+              "path": ["startups", "delete", "99999"]
+            },
+            "description": "Caso de prueba: Eliminar startup inexistente (debe retornar 404)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Technologies",
+      "item": [
+        {
+          "name": "Create Technology",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Artificial General Intelligence\",\n  \"sector\": \"Computing\",\n  \"description\": \"Next generation AI systems with human-like reasoning\",\n  \"adoptionLevel\": \"emerging\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/technologies/create",
+              "host": ["{{baseUrl}}"],
+              "path": ["technologies", "create"]
+            },
+            "description": "Crear una nueva tecnología"
+          }
+        },
+        {
+          "name": "Create Technology - Invalid",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Incomplete Tech\",\n  \"adoptionLevel\": \"invalid_level\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/technologies/create",
+              "host": ["{{baseUrl}}"],
+              "path": ["technologies", "create"]
+            },
+            "description": "Caso de prueba: Crear tecnología con nivel de adopción inválido (debe retornar error 400)"
+          }
+        },
+        {
+          "name": "Get All Technologies",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/technologies/read",
+              "host": ["{{baseUrl}}"],
+              "path": ["technologies", "read"]
+            },
+            "description": "Obtener lista completa de tecnologías"
+          }
+        },
+        {
+          "name": "Get Technologies with Filters",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/technologies/read?sector=FinTech&adoptionLevel=growing",
+              "host": ["{{baseUrl}}"],
+              "path": ["technologies", "read"],
+              "query": [
+                {
+                  "key": "sector",
+                  "value": "FinTech"
+                },
+                {
+                  "key": "adoptionLevel",
+                  "value": "growing"
+                }
+              ]
+            },
+            "description": "Obtener tecnologías filtradas por sector y nivel de adopción"
+          }
+        },
+        {
+          "name": "Get Technology by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/technologies/read/2",
+              "host": ["{{baseUrl}}"],
+              "path": ["technologies", "read", "2"]
+            },
+            "description": "Obtener detalle de una tecnología específica"
+          }
+        },
+        {
+          "name": "Update Technology",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"adoptionLevel\": \"mature\",\n  \"description\": \"Widely adopted blockchain technology in financial sector\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/technologies/update/2",
+              "host": ["{{baseUrl}}"],
+              "path": ["technologies", "update", "2"]
+            },
+            "description": "Actualizar tecnología existente"
+          }
+        },
+        {
+          "name": "Delete Technology",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/technologies/delete/3",
+              "host": ["{{baseUrl}}"],
+              "path": ["technologies", "delete", "3"]
+            },
+            "description": "Eliminar una tecnología por ID"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health Checks",
+      "item": [
+        {
+          "name": "Gateway Health",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:3000/health",
+              "host": ["http://localhost:3000"],
+              "path": ["health"]
+            },
+            "description": "Verificar estado del API Gateway"
+          }
+        }
+      ]
+    }
+  ]
+}

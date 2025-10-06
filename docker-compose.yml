@@ -1,0 +1,196 @@
+version: '3.8'
+
+services:
+  # Base de datos PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    container_name: reto_db
+    environment:
+      POSTGRES_DB: ${DB_NAME:-reto_db}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres123}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - reto_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # API Gateway
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    container_name: reto_gateway
+    ports:
+      - "3000:80"
+    depends_on:
+      - create-startup
+      - read-startup
+      - update-startup
+      - delete-startup
+      - create-technology
+      - read-technology
+      - update-technology
+      - delete-technology
+    networks:
+      - reto_network
+
+  # Servicios de Startups  
+  create-startup:
+    build:
+      context: ./services/startups/create
+      dockerfile: Dockerfile
+    container_name: create_startup_service
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-reto_db}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres123}
+      SERVICE_PORT: 3001
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - reto_network
+
+  read-startup:
+    build:
+      context: ./services/startups/read
+      dockerfile: Dockerfile
+    container_name: read_startup_service
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-reto_db}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres123}
+      SERVICE_PORT: 3002
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - reto_network
+
+  update-startup:
+    build:
+      context: ./services/startups/update
+      dockerfile: Dockerfile
+    container_name: update_startup_service
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-reto_db}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres123}
+      SERVICE_PORT: 3003
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - reto_network
+
+  delete-startup:
+    build:
+      context: ./services/startups/delete
+      dockerfile: Dockerfile
+    container_name: delete_startup_service
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-reto_db}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres123}
+      SERVICE_PORT: 3004
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - reto_network
+
+  # Servicios de Technologies
+  create-technology:
+    build:
+      context: ./services/technologies/create
+      dockerfile: Dockerfile
+    container_name: create_technology_service
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-reto_db}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres123}
+      SERVICE_PORT: 3005
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - reto_network
+
+  read-technology:
+    build:
+      context: ./services/technologies/read
+      dockerfile: Dockerfile
+    container_name: read_technology_service
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-reto_db}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres123}
+      SERVICE_PORT: 3006
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - reto_network
+
+  update-technology:
+    build:
+      context: ./services/technologies/update
+      dockerfile: Dockerfile
+    container_name: update_technology_service
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-reto_db}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres123}
+      SERVICE_PORT: 3007
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - reto_network
+
+  delete-technology:
+    build:
+      context: ./services/technologies/delete
+      dockerfile: Dockerfile
+    container_name: delete_technology_service
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-reto_db}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres123}
+      SERVICE_PORT: 3008
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - reto_network
+
+networks:
+  reto_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
