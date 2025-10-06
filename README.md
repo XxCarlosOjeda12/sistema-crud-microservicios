@@ -247,14 +247,17 @@ DELETE_TECH_PORT=3024
 GATEWAY_PORT=3000
 ```
 
-### Archivo frontend/.env
+### Archivo frontend/.env.example
 
 ```env
-# Para desarrollo local
+# Frontend Environment Variables
+# Copy this file to .env and configure
+
+# API Base URL (Local development)
 REACT_APP_API_BASE_URL=http://localhost:3000/v1/api
 
-# Para producción (Vercel)
-REACT_APP_API_BASE_URL=https://api-gateway-c6ru.onrender.com/v1/api
+# For production deployment (configure in Vercel dashboard)
+# REACT_APP_API_BASE_URL=https://api-gateway-c6ru.onrender.com/v1/api
 ```
 
 ---
@@ -350,34 +353,6 @@ npm start
 6. Abrir navegador en: http://localhost:3000
 
 **Nota:** Esta opción es útil para desarrollo rápido del frontend ya que permite hot-reload sin reconstruir contenedores. El frontend se conectará directamente al backend desplegado en Render.
-
----
-
-## Arquitectura Local vs Producción
-
-### Diferencias Clave
-
-| Aspecto | Local | Producción (Render) |
-|---------|-------|---------------------|
-| Configuración Nginx | nginx.conf | nginx.render.conf |
-| Puerto Gateway | 80 | 10000 |
-| URLs Microservicios | Nombres Docker (create-startup:3011) | URLs HTTPS completas |
-| Base de datos | PostgreSQL local en Docker | PostgreSQL en Render |
-| Red | Docker Compose network | Internet público |
-| Cold Start | No aplica | Requiere activación manual |
-
-### nginx.conf vs nginx.render.conf
-
-**nginx.conf (local):**
-- Usa nombres de servicio de Docker Compose
-- Resuelve internamente en la red de Docker
-- Ejemplo: `http://create-startup:3011`
-
-**nginx.render.conf (producción):**
-- Usa URLs HTTPS completas
-- Incluye proxy_ssl_server_name on para SNI
-- Timeouts de 90 segundos para cold starts
-- Ejemplo: `https://create-startup-service-k9b4.onrender.com`
 
 ---
 
@@ -804,7 +779,7 @@ PORT=<assigned-by-render>
 
 ## Autor
 
-**Nombre:** Carlos Elias Linares Ojeda  
+**Nombre:** Carlos Elías Linares Ojeda  
 **Fecha de entrega:** 6 de octubre de 2025  
 **Repositorio:** https://github.com/XxCarlosOjeda12/sistema-crud-microservicios  
 **Versión:** 1.0.0
