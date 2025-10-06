@@ -1,3 +1,4 @@
+
 {
   "info": {
     "name": "CRUD de Microservicios",
@@ -7,7 +8,7 @@
   "variable": [
     {
       "key": "baseUrl",
-      "value": "http://localhost:3000/v1/api",
+      "value": "https://api-gateway-c6ru.onrender.com/v1/api", 
       "type": "string"
     }
   ],

@@ -5,6 +5,7 @@ RUN rm /etc/nginx/nginx.conf
 
 COPY nginx.render.conf /etc/nginx/nginx.conf
 
-EXPOSE 10000
+#80 Local
+EXPOSE 10000  
 
 CMD ["nginx", "-g", "daemon off;"]
