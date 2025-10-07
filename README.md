@@ -25,7 +25,7 @@ Sistema de gestión de startups y tecnologías emergentes construido con arquite
 
 Los servicios desplegados en Render Free Tier entran en modo sleep después de 15 minutos de inactividad. Antes de usar la aplicación web o probar con Postman, es necesario activar manualmente los 8 microservicios ejecutando los siguientes comandos curl:
 
-```bash
+```shell
 # Startups Services
 curl https://create-startup-service-k9b4.onrender.com/health
 curl https://read-startup-service-lnq5.onrender.com/health
