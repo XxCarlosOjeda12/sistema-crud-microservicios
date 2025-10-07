@@ -23,7 +23,7 @@ Sistema de gestión de startups y tecnologías emergentes construido con arquite
 
 ## IMPORTANTE: Activación de Microservicios en Render
 
-Los servicios desplegados en Render Free Tier entran en modo sleep después de 15 minutos de inactividad. Antes de usar la aplicación web o probar con Postman, es necesario activar manualmente los 8 microservicios ejecutando los siguientes comandos curl:
+Los servicios desplegados en Render Free Tier entran en modo sleep después de 15 minutos de inactividad. Antes de usar la aplicación web o probar con Postman, es necesario activar manualmente los 8 microservicios ejecutando los siguientes comandos curl desde shell:
 
 ```shell
 # Startups Services
