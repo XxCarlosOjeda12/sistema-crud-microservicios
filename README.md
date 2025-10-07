@@ -318,7 +318,152 @@ Debe mostrar 11 contenedores activos:
 - API Gateway: http://localhost:3000
 - Base de datos: localhost:5432
 
+
 ---
+
+## Ejecución del Frontend en Modo Desarrollo (Alternativa)
+
+Si deseas ejecutar **solo el frontend** en modo desarrollo (sin Docker), sigue estos pasos. Esto es útil para desarrollo del frontend cuando los servicios backend ya están corriendo con Docker o en producción.
+
+### Requisitos Previos
+
+- Node.js 18 o superior
+- npm 9 o superior
+
+Verificar instalación:
+```bash
+node --version
+npm --version
+```
+
+### Paso 1: Navegar al directorio del frontend
+
+```bash
+cd frontend
+```
+
+### Paso 2: Instalar dependencias
+
+```bash
+npm install
+```
+
+Este comando instalará todas las dependencias definidas en `package.json`:
+- React 18
+- React Router DOM
+- Axios
+- Otras dependencias necesarias
+
+Tiempo estimado: 1-2 minutos (primera vez).
+
+### Paso 3: Configurar variables de entorno
+
+Crear el archivo `.env` en la carpeta `frontend/`:
+
+```bash
+# Desde frontend/
+cp .env.example .env
+```
+
+Editar `frontend/.env` con el contenido apropiado:
+
+```env
+# Para desarrollo local (si backend corre con Docker)
+REACT_APP_API_BASE_URL=http://localhost:3000/v1/api
+
+# Para desarrollo apuntando a producción
+# REACT_APP_API_BASE_URL=https://api-gateway-c6ru.onrender.com/v1/api
+```
+
+### Paso 4: Iniciar servidor de desarrollo
+
+```bash
+npm start
+```
+
+Este comando:
+- Inicia el servidor de desarrollo de React
+- Abre automáticamente el navegador en `http://localhost:3000`
+- Habilita Hot Module Replacement (recarga automática al guardar cambios)
+- Muestra errores de compilación en la consola y en el navegador
+
+**Nota:** Si el puerto 3000 está ocupado por el API Gateway, React ofrecerá automáticamente usar el puerto 3001.
+
+### Paso 5: Verificar la aplicación
+
+Abre tu navegador en:
+- `http://localhost:3000` (o el puerto que React indique)
+
+Deberías ver la interfaz del sistema con:
+- Navegación entre Startups y Technologies
+- Botón de tema claro/oscuro
+- Funcionalidad CRUD completa
+
+### Comandos Adicionales de npm
+
+```bash
+# Ejecutar build de producción
+npm run build
+
+# Ejecutar tests (si están configurados)
+npm test
+
+# Verificar dependencias vulnerables
+npm audit
+
+# Actualizar dependencias
+npm update
+```
+
+### Estructura de Carpetas del Frontend
+
+```
+frontend/
+├── public/
+│   └── index.html
+├── src/
+│   ├── components/
+│   │   ├── common/          # Componentes reutilizables (Modal, Alert, etc.)
+│   │   ├── Startups/        # Componentes específicos de Startups
+│   │   └── Technologies/    # Componentes específicos de Technologies
+│   ├── hooks/               # Custom hooks (useTheme, useForm, etc.)
+│   ├── services/            # Servicios API (axios instances)
+│   ├── utils/               # Funciones utilitarias
+│   ├── App.js               # Componente principal
+│   ├── App.css              # Estilos globales
+│   └── index.js             # Entry point
+├── package.json
+├── .env                     # Variables de entorno (crear desde .env.example)
+├── .env.example             # Template de variables de entorno
+└── Dockerfile               # Para contenerización (Docker)
+```
+
+### Troubleshooting Frontend
+
+#### Error: "Port 3000 is already in use"
+**Solución:** React usará automáticamente el puerto 3001. Acepta con 'Y' cuando te pregunte.
+
+#### Error: "Cannot connect to API"
+**Solución:** 
+1. Verifica que el API Gateway esté corriendo (Docker o producción)
+2. Verifica la variable `REACT_APP_API_BASE_URL` en `.env`
+3. Verifica CORS en el backend
+
+#### Error: "Module not found"
+**Solución:**
+```bash
+# Eliminar node_modules y package-lock.json
+rm -rf node_modules package-lock.json
+
+# Reinstalar dependencias
+npm install
+```
+
+#### Cambios no se reflejan en el navegador
+**Solución:**
+1. Hacer hard refresh: `Ctrl + Shift + R` (Windows/Linux) o `Cmd + Shift + R` (Mac)
+2. Limpiar caché del navegador
+3. Reiniciar el servidor de desarrollo (`Ctrl + C` y luego `npm start`)
 
 ## Rutas de API
 
@@ -743,7 +888,7 @@ PORT=<assigned-by-render>
 
 ## Autor
 
-**Nombre:** Carlos Elías Linares Ojeda  
+**Nombre:** Carlos Elias Linares Ojeda  
 **Fecha de entrega:** 6 de octubre de 2025  
 **Repositorio:** https://github.com/XxCarlosOjeda12/sistema-crud-microservicios  
 **Versión:** 1.0.0
